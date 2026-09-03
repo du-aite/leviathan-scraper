@@ -1,0 +1,33 @@
+# Local configuration — HOLDS CREDENTIALS, never commit.
+# Start from config.h.example instead.
+src/config.h
+config.h
+
+# Build output
+*.o
+*.a
+leviathan
+release/
+
+# Test binaries
+src/test_romscan
+src/test_systems
+src/test_romhash
+src/test_ssparse
+src/test_api
+
+# Scraper output
+Imgs/
+saida/
+
+# macOS
+.DS_Store
+._*
+
+# Go reference implementation — local study material, not part of the build
+_arquivo/
+
+# Device libraries copied off the Brick — not ours to distribute, and
+# binaries bloat the repository. See README for how to fetch them.
+devicelibs/
+_arquivo*/

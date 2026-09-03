@@ -1,0 +1,11 @@
+{"header":{"APIversion":"2","dateTime":"2026-09-03","commandRequested":"jeuInfos.php","success":"true","error":""},
+"response":{"jeu":{"id":"1234","romid":"5678","notgame":"false",
+"noms":[{"region":"us","text":"Pok\u00e9mon Blue Version"},{"region":"jp","text":"Pocket Monsters Ao"}],
+"editeur":{"id":"10","text":"Nintendo"},
+"medias":[
+{"type":"sstitle","parent":"jeu","url":"https:\/\/api.screenscraper.fr\/image.php?gameid=1234&media=sstitle","region":"us","format":"png"},
+{"type":"box-2D","parent":"jeu","url":"https:\/\/api.screenscraper.fr\/image.php?gameid=1234&media=box-2D&region=jp","region":"jp","format":"png"},
+{"type":"box-2D","parent":"jeu","url":"https:\/\/api.screenscraper.fr\/image.php?gameid=1234&media=box-2D&region=eu","region":"eu","format":"png"},
+{"type":"box-2D","parent":"jeu","url":"https:\/\/api.screenscraper.fr\/image.php?gameid=1234&media=box-2D&region=us","region":"us","format":"png"},
+{"type":"wheel","parent":"jeu","url":"https:\/\/api.screenscraper.fr\/image.php?gameid=1234&media=wheel","region":"wor","format":"png"}
+]}}}

@@ -1,0 +1,73 @@
+/*
+ * config.h.example — template for the local configuration.
+ *
+ * HOW TO USE
+ *   cp config.h.example config.h
+ *   then fill in the four ScreenScraper credentials in config.h
+ *
+ * config.h is listed in .gitignore and must never be committed. This
+ * template is the file that ships with the project: it documents every
+ * setting and carries no secrets.
+ *
+ * Metadata & artwork by ScreenScraper.fr — https://www.screenscraper.fr
+ * A ScreenScraper account is required. Register there to get a user id and
+ * password; the developer id and password are issued separately to
+ * application authors.
+ */
+
+#ifndef LEVIATHAN_CONFIG_H
+#define LEVIATHAN_CONFIG_H
+
+/* ------------------------------------------------------------------
+ * ScreenScraper credentials
+ * ------------------------------------------------------------------ */
+
+/* Issued to the application author. */
+#define SS_DEV_ID       ""
+#define SS_DEV_PASSWORD ""
+
+/* Your personal ScreenScraper account. */
+#define SS_USER_ID       ""
+#define SS_USER_PASSWORD ""
+
+/* Identifies this program to the API. Leave as is. */
+#define SS_SOFT_NAME "Leviathan Scraper"
+
+/* ------------------------------------------------------------------
+ * Paths
+ * ------------------------------------------------------------------ */
+
+/* Root certificate bundle. The device has no system certificate store, so
+ * HTTPS only works if libcurl is pointed at a bundle we ship ourselves.
+ * Relative to the app folder, which launch.sh makes the working directory. */
+#define LEV_CA_BUNDLE "assets/cacert.pem"
+
+/* The distilled ScreenScraper system cache. */
+#define LEV_SYSTEMS_FILE "assets/sistemas.json"
+
+/* Where covers are written: <LEV_OUTPUT_DIR>/<TAG>/<rom name>.png */
+#define LEV_OUTPUT_DIR "Imgs"
+
+/* ------------------------------------------------------------------
+ * Scraping preferences
+ * ------------------------------------------------------------------ */
+
+/* Media type to fetch. "box-2D" is the flat front cover. */
+#define LEV_MEDIA_TYPE "box-2D"
+
+/* Preferred cover region. Falls back to "wor" (world), then to whatever is
+ * available — many games have no cover in any single given region. */
+#define LEV_PREFERRED_REGION "us"
+
+/* Pause between API calls, in milliseconds. ScreenScraper asks for this;
+ * do not lower it. */
+#define LEV_REQUEST_PAUSE_MS 1200
+
+/* Network timeout per request, in seconds. */
+#define LEV_HTTP_TIMEOUT_SECONDS 30
+
+/* 1 to leave existing covers alone, 0 to always re-download. Skipping saves
+ * both time and API quota. */
+#define LEV_SKIP_EXISTING 1
+
+#endif /* LEVIATHAN_CONFIG_H */
