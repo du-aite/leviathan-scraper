@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define JSMN_HEADER
 #include "jsmn.h"
 #include "ssparse.h"
 
