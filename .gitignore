@@ -31,3 +31,9 @@ _arquivo/
 # binaries bloat the repository. See README for how to fetch them.
 devicelibs/
 _arquivo*/
+
+# Binaries missed by the rules above (runtime-credentials work)
+leviathan_ui
+src/leviathan_ui
+src/test_credentials
+PASSO_2_LEIA.md

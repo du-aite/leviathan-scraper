@@ -20,12 +20,17 @@
 #include <string.h>
 
 #include "config.h"
+#include "credentials.h"
 #include "romhash.h"
 #include "romscan.h"
 #include "sshttp.h"
 #include "ssparse.h"
 #include "status.h"
 #include "systems.h"
+
+/* Where --save writes the cover. LEV_OUTPUT_DIR moved to main.c in Phase 3, so
+ * this test defines its own — the same "./Imgs" the app uses on the Mac side. */
+#define TEST_OUTPUT_DIR "./Imgs"
 
 static const char *status_text(ScrapeStatus s)
 {
@@ -64,10 +69,23 @@ int main(int argc, char **argv)
         }
     }
 
-    if (SS_DEV_ID[0] == '\0' || SS_USER_ID[0] == '\0') {
-        puts("\nconfig.h has no credentials yet."
+    if (SS_DEV_ID[0] == '\0') {
+        puts("\nconfig.h has no developer credentials yet."
              "\ncopy config.h.example to config.h and fill them in.\n");
         return 1;
+    }
+
+    /* User login from credentials.txt, same as the real app. */
+    {
+        UserCredentials cred;
+        credentials_load(LEV_CREDENTIALS_FILE, &cred);
+        if (!cred.complete) {
+            printf("\n%s has no usable login yet."
+                   "\nedit it with your ScreenScraper username and password.\n\n",
+                   LEV_CREDENTIALS_FILE);
+            return 1;
+        }
+        ss_set_user_credentials(cred.ssid, cred.sspassword);
     }
 
     putchar('\n');
@@ -136,7 +154,7 @@ int main(int argc, char **argv)
                 if (dot != NULL) {
                     *dot = '\0';
                 }
-                snprintf(dest, sizeof(dest), "%s/%s/%s.png", LEV_OUTPUT_DIR, argv[3], base);
+                snprintf(dest, sizeof(dest), "%s/%s/%s.png", TEST_OUTPUT_DIR, argv[3], base);
 
                 {
                     long size = 0;

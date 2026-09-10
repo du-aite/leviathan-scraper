@@ -72,6 +72,31 @@ void ss_http_cleanup(void)
     curl_global_cleanup();
 }
 
+/* ------------------------------------------------------------------
+ * User credentials, set once at startup
+ * ------------------------------------------------------------------ */
+
+/* The user's ScreenScraper login, held for the life of the process. The dev
+ * credentials (SS_DEV_ID, SS_DEV_PASSWORD) stay compiled in — they identify
+ * this program and are the same for everyone — but the user pair is read from
+ * a file at runtime and handed in here, so a person can change their login
+ * without recompiling. Module-level, like the libcurl global state above:
+ * configured once, before the first request, and read by every fetch after. */
+static char g_user_id[128]       = "";
+static char g_user_password[128] = "";
+
+void ss_set_user_credentials(const char *ssid, const char *sspassword)
+{
+    if (ssid != NULL) {
+        strncpy(g_user_id, ssid, sizeof(g_user_id) - 1);
+        g_user_id[sizeof(g_user_id) - 1] = '\0';
+    }
+    if (sspassword != NULL) {
+        strncpy(g_user_password, sspassword, sizeof(g_user_password) - 1);
+        g_user_password[sizeof(g_user_password) - 1] = '\0';
+    }
+}
+
 /* Point libcurl at the bundle we ship, but only when it is actually there.
  * On a desktop the system store works fine and the shipped bundle may not
  * be next to the binary; on the device there is no system store at all. */
@@ -136,7 +161,7 @@ ScrapeStatus ss_fetch_game(const RomHashes *hashes, int system_id, SsGame *out,
     snprintf(url, sizeof(url),
              "%s?devid=%s&devpassword=%s&ssid=%s&sspassword=%s"
              "&softname=%s&output=json&systemeid=%d&crc=%s&md5=%s",
-             SS_ENDPOINT, SS_DEV_ID, SS_DEV_PASSWORD, SS_USER_ID, SS_USER_PASSWORD,
+             SS_ENDPOINT, SS_DEV_ID, SS_DEV_PASSWORD, g_user_id, g_user_password,
              (escaped_soft != NULL) ? escaped_soft : "Leviathan",
              system_id, hashes->crc, hashes->md5);
 

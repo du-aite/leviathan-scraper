@@ -20,6 +20,7 @@
 #include <string.h>
 
 #include "config.h"
+#include "credentials.h"
 #include "romscan.h"
 #include "scrape.h"
 #include "sshttp.h"
@@ -33,6 +34,11 @@ typedef struct {
     int   stop_after; /* 0 = run to the end */
     char  last_system[LEV_SYSTEM_NAME_MAX];
 } TerminalState;
+
+/* Where this terminal test writes covers. LEV_OUTPUT_DIR used to live in
+ * config.h, but moved into main.c as platform logic in Phase 3, so this test
+ * defines its own — the same "./Imgs" the app uses on the Mac side. */
+#define TEST_OUTPUT_DIR "./Imgs"
 
 static void on_progress(const char *system_name, int index, int total,
                         const char *rom_name, void *user)
@@ -208,10 +214,25 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    if (SS_DEV_ID[0] == '\0' || SS_USER_ID[0] == '\0') {
-        puts("\nconfig.h has no credentials yet."
+    if (SS_DEV_ID[0] == '\0') {
+        puts("\nconfig.h has no developer credentials yet."
              "\ncopy config.h.example to config.h and fill them in.\n");
         return 1;
+    }
+
+    /* User login comes from credentials.txt now, the same source the real app
+     * reads — so this test exercises the actual parser and setter rather than a
+     * parallel path of its own. */
+    {
+        UserCredentials cred;
+        credentials_load(LEV_CREDENTIALS_FILE, &cred);
+        if (!cred.complete) {
+            printf("\n%s has no usable login yet."
+                   "\nedit it with your ScreenScraper username and password.\n\n",
+                   LEV_CREDENTIALS_FILE);
+            return 1;
+        }
+        ss_set_user_credentials(cred.ssid, cred.sspassword);
     }
 
     if (systems_load(LEV_SYSTEMS_FILE, &systems) < 0) {
@@ -232,7 +253,7 @@ int main(int argc, char **argv)
     }
 
     options.roms_dir     = roms_dir;
-    options.output_dir   = LEV_OUTPUT_DIR;
+    options.output_dir   = TEST_OUTPUT_DIR;
     options.filter_tags  = (tag_count > 0) ? tags : NULL;
     options.filter_count = tag_count;
 
@@ -243,7 +264,7 @@ int main(int argc, char **argv)
 
     puts("\nLEVIATHAN SCRAPER");
     printf("roms     %s\n", roms_dir);
-    printf("output   %s/<TAG>/\n", LEV_OUTPUT_DIR);
+    printf("output   %s/<TAG>/\n", TEST_OUTPUT_DIR);
     if (tag_count > 0) {
         printf("only     ");
         for (i = 0; i < tag_count; i++) {

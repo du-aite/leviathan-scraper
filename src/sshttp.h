@@ -26,6 +26,14 @@ int  ss_http_init(void);
 void ss_http_cleanup(void);
 
 /*
+ * Hand in the user's ScreenScraper login, read from the runtime credentials
+ * file. Call once at startup, after loading the file and before the first
+ * fetch. The dev credentials are compiled in; only this user pair is set here.
+ * Passing NULL for either argument leaves that value unchanged.
+ */
+void ss_set_user_credentials(const char *ssid, const char *sspassword);
+
+/*
  * Look a ROM up by its hashes.
  *
  * Returns SCRAPE_OK with out filled in, or one of:

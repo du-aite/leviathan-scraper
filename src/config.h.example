@@ -3,32 +3,38 @@
  *
  * HOW TO USE
  *   cp config.h.example config.h
- *   then fill in the four ScreenScraper credentials in config.h
+ *   then fill in the two developer credentials in config.h
  *
  * config.h is listed in .gitignore and must never be committed. This
  * template is the file that ships with the project: it documents every
  * setting and carries no secrets.
  *
+ * NOTE ON CREDENTIALS — there are two kinds, and they live in two places:
+ *   - Developer id/password (below) identify the *program* to the API. They
+ *     are the same for every user and are compiled into the binary. Only the
+ *     app author needs to fill these in when building from source.
+ *   - The end user's own ScreenScraper login is NOT here. It is read at
+ *     runtime from credentials.txt next to the binary, so a user can change
+ *     it without recompiling. That is the only file a non-building user edits.
+ *
  * Metadata & artwork by ScreenScraper.fr — https://www.screenscraper.fr
- * A ScreenScraper account is required. Register there to get a user id and
- * password; the developer id and password are issued separately to
- * application authors.
+ * A ScreenScraper account is required. The developer id and password are
+ * issued separately to application authors.
  */
 
 #ifndef LEVIATHAN_CONFIG_H
 #define LEVIATHAN_CONFIG_H
 
 /* ------------------------------------------------------------------
- * ScreenScraper credentials
+ * ScreenScraper developer credentials
+ *
+ * These identify THIS program to the API and are compiled in. The end
+ * user's personal login is read from credentials.txt at runtime, not here.
  * ------------------------------------------------------------------ */
 
 /* Issued to the application author. */
 #define SS_DEV_ID       ""
 #define SS_DEV_PASSWORD ""
-
-/* Your personal ScreenScraper account. */
-#define SS_USER_ID       ""
-#define SS_USER_PASSWORD ""
 
 /* Identifies this program to the API. Leave as is. */
 #define SS_SOFT_NAME "Leviathan Scraper"
@@ -45,8 +51,10 @@
 /* The distilled ScreenScraper system cache. */
 #define LEV_SYSTEMS_FILE "assets/sistemas.json"
 
-/* Where covers are written: <LEV_OUTPUT_DIR>/<TAG>/<rom name>.png */
-#define LEV_OUTPUT_DIR "Imgs"
+/* NOTE: the cover output folder is NOT set here. It depends on the platform
+ * (fixed at /mnt/SDCARD/Imgs on the Brick, ./Imgs when testing on desktop),
+ * so it is decided in main.c under #ifdef TARGET_BRICK, next to the ROM path.
+ * Covers are always written as <output>/<TAG>/<rom name>.png. */
 
 /* ------------------------------------------------------------------
  * Scraping preferences

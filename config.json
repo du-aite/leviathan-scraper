@@ -1,0 +1,7 @@
+{
+	"label": "Leviathan Scraper",
+	"icon": "icon.png",
+	"iconsel": "icon.png",
+	"launch": "launch.sh",
+	"description": "Box art scraper (ScreenScraper.fr)"
+}
