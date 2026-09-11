@@ -160,6 +160,11 @@ and build output are gitignored.
 This was built with the help of AI (Claude), **thoroughly** reviewed by me — a
 software developer. Made with love, from users to users.
 
+If this made your life easier, you wanted to keep the stock OS but still get
+your box art... you can buy me a coffee! Totally optional of course, always appreciated.
+
+<a href='https://ko-fi.com/duaite' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi3.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 When I started this, I couldn't find a scraper app for the Trimui Brick Pro
 running the stock OS, so I built the one I wanted to use. If it helps you get
 your collection looking good, it did its job.
